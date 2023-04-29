@@ -1,37 +1,37 @@
-package fadesp.paymentrestapi.entity;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+package fadesp.paymentrestapi.model;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Entity
 public class Payment implements Serializable {
-
-    private static final long serialVersionUID = 1;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int debitCode;
 
-    @Column(name = "payerType", nullable = false)
-    private char payerType;
+    @Column(name = "payerType", nullable = false) /*Cpf ou CNPJ*/
+    private String payerType;
 
     @Column(name = "paymentMethod", nullable = false)
-    private char paymentMethod;
+    private String paymentMethod;
 
     @Column(name = "cardNumber")
-    private char cardNumber;
+    private String cardNumber;
 
     @Column(name = "valuePayment", nullable = false)
     private double valuePayment;
+
+    @Column(name= "paymentStatus")
+    private String paymentStatus = "Pendente de Processamento";
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
 
     public int getDebitCode() {
         return debitCode;
@@ -41,27 +41,27 @@ public class Payment implements Serializable {
         this.debitCode = debitCode;
     }
 
-    public char getPayerType() {
+    public String getPayerType() {
         return payerType;
     }
 
-    public void setPayerType(char payerType) {
+    public void setPayerType(String payerType) {
         this.payerType = payerType;
     }
 
-    public char getPaymentMethod() {
+    public String getPaymentMethod() {
         return paymentMethod;
     }
 
-    public void setPaymentMethod(char paymentMethod) {
+    public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
 
-    public char getCardNumber() {
+    public String getCardNumber() {
         return cardNumber;
     }
 
-    public void setCardNumber(char cardNumber) {
+    public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
     }
 
