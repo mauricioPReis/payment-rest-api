@@ -1,4 +1,4 @@
-package fadesp.paymentrestapi.http.controller;
+package fadesp.paymentrestapi.controller;
 
 import fadesp.paymentrestapi.model.Payment;
 import fadesp.paymentrestapi.repository.PaymentRepository;
@@ -20,7 +20,7 @@ public class PaymentController {
         this.service = service;
     }
 
-    @PostMapping(path = "/save")
+    @PostMapping
     public ResponseEntity<List<Payment>> addPayments(@RequestBody List<Payment> payments){
         return new ResponseEntity<>(
                 service.savePayment(payments),
@@ -60,7 +60,7 @@ public class PaymentController {
         );
     }
 
-    @PutMapping(path = "/update/{debitCode}")
+    @PutMapping(path = "/{debitCode}")
     public ResponseEntity<Payment> updatePayment(@RequestBody Payment payment){
         return new ResponseEntity<Payment>(
                 service.updatePayment(payment),
@@ -68,7 +68,7 @@ public class PaymentController {
         );
     }
 
-    @DeleteMapping("/delete/{debitCode}")
+    @DeleteMapping("/{debitCode}")
     public ResponseEntity<Void> deletePayment(@PathVariable Integer debitCode, String paymentStatus){
         service.deletePayment(debitCode, paymentStatus);
         return new ResponseEntity<Void>(
