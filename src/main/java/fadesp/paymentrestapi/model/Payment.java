@@ -8,23 +8,24 @@ import java.io.Serializable;
 public class Payment implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "debitCode")
     private int debitCode;
 
-    @Column(name = "payerType", nullable = false) /*Cpf ou CNPJ*/
+    @Column(name = "payerType")
     private String payerType;
 
-    @Column(name = "paymentMethod", nullable = false)
+    @Column(name = "paymentMethod")
     private String paymentMethod;
 
     @Column(name = "cardNumber")
     private String cardNumber;
 
-    @Column(name = "valuePayment", nullable = false)
+    @Column(name = "valuePayment")
     private double valuePayment;
 
     @Column(name= "paymentStatus")
-    private String paymentStatus = "pendente_processamento";
+    private String paymentStatus = "Pendente_Processamento";
 
     public String getPaymentStatus() {
         return paymentStatus;

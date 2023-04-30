@@ -2,7 +2,6 @@ package fadesp.paymentrestapi.http.controller;
 
 import fadesp.paymentrestapi.model.Payment;
 import fadesp.paymentrestapi.service.PaymentService;
-import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,7 +59,7 @@ public class PaymentController {
         );
     }
 
-    @PutMapping
+    @PutMapping(path = "/update/{debitCode}")
     public ResponseEntity<Payment> updatePayment(@RequestBody Payment payment){
         return new ResponseEntity<Payment>(
                 service.updatePayment(payment),
@@ -68,7 +67,7 @@ public class PaymentController {
         );
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{debitCode}")
     public ResponseEntity<Void> deletePayment(@PathVariable Integer debitCode, String paymentStatus){
         service.deletePayment(debitCode, paymentStatus);
         return new ResponseEntity<Void>(
