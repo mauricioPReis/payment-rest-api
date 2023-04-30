@@ -1,6 +1,5 @@
 package fadesp.paymentrestapi.service.impl;
 
-import com.fasterxml.jackson.annotation.Nulls;
 import fadesp.paymentrestapi.handlers.RequiredField;
 import fadesp.paymentrestapi.model.Payment;
 import fadesp.paymentrestapi.repository.PaymentRepository;
@@ -19,8 +18,8 @@ public class PaymentServiceImpl implements PaymentService {
             throw new RequiredField("CPF/CNPJ");
         } else if (payment.getPaymentMethod() == null || payment.getPaymentMethod() == "") {
             throw new RequiredField("Método de Pagamento");
-        }else {
-            PaymentRepository.save(payment);
+        }else{
+            paymentRepository.save(payment);
         }
     }
 

@@ -1,7 +1,10 @@
 package fadesp.paymentrestapi.repository;
 
 import fadesp.paymentrestapi.model.Payment;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PaymentRepository extends CrudRepository<Payment, String> {
+import java.util.List;
+
+public interface PaymentRepository extends JpaRepository<Payment, Integer> {
+    List<Payment> findByName(int debitCode);
 }
