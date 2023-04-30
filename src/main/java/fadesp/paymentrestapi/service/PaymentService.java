@@ -1,6 +1,7 @@
 package fadesp.paymentrestapi.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import fadesp.paymentrestapi.model.Payment;
@@ -14,29 +15,24 @@ public class PaymentService {
     @Autowired
     private PaymentRepository repository;
 
-    /* Adicionar novc pagamento */
     public List<Payment> savePayment(List<Payment> payments){
         return repository.saveAll(payments);
     }
 
-    /* Buscar todos os registo */
     public List<Payment> getPayments(){
         return repository.findAll();
     }
 
-    /* Buscar pelo Id = debitCode */
     public Optional<Payment> getPaymentById(Integer debitCode){
         return repository.findById(debitCode);
     }
 
-    /* Buscar pelo CPF/CNPJ = payerType */
     public List<Payment> getPaymentByPayerType(String payerType){
-        return repository.findByName(payerType);
+        return repository.findByPayerType(payerType);
     }
 
-    /* Buscar pelo  Status do pagamento = paymentStatus */
     public List<Payment> getPaymentByPaymentStatus(String paymentStatus){
-        return repository.findByStats(paymentStatus);
+        return repository.findByPaymentStatus(paymentStatus);
     }
 
     public Payment updatePayment(Payment payment){
@@ -49,7 +45,7 @@ public class PaymentService {
     }
 
     public void deletePayment(Integer debitCode, String paymentStatus){
-        if (paymentStatus == "pendente_processamento"){
+        if (Objects.equals(paymentStatus, "pendente_processamento")){
             repository.deleteById(debitCode);
         }
     }

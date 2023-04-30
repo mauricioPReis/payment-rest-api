@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 
-    List<Payment> findByName(String payerType);
+    List<Payment> findByPayerType(String payerType);
 
-    List<Payment> findByStats(String paymentStatus);
+    List<Payment> findByPaymentStatus(String paymentStatus);
 }
