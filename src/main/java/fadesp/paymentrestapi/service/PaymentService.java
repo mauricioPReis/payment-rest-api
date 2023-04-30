@@ -46,8 +46,6 @@ public class PaymentService {
     }
 
     public void deletePayment(Integer debitCode, String paymentStatus){
-        if (Objects.equals(paymentStatus, "pendente_processamento")){
             repository.deleteById(debitCode);
-        }
     }
 }

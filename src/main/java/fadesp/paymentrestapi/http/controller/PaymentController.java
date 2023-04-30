@@ -1,6 +1,7 @@
 package fadesp.paymentrestapi.http.controller;
 
 import fadesp.paymentrestapi.model.Payment;
+import fadesp.paymentrestapi.repository.PaymentRepository;
 import fadesp.paymentrestapi.service.PaymentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,7 @@ public class PaymentController {
         );
     }
 
-    @GetMapping("search/{payerType}")
+    @GetMapping("search/type/{payerType}")
     public ResponseEntity<List<Payment>> getSpecificPaymentType(@PathVariable String payerType){
         return new ResponseEntity<List<Payment>>(
                 service.getPaymentByPayerType(payerType),
@@ -51,7 +52,7 @@ public class PaymentController {
         );
     }
 
-    @GetMapping("search/{paymentStatus}")
+    @GetMapping("search/status/{paymentStatus}")
     public ResponseEntity<List<Payment>> getSpecificPaymentStatus(@PathVariable String paymentStatus){
         return new ResponseEntity<List<Payment>>(
                 service.getPaymentByPaymentStatus(paymentStatus),
