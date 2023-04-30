@@ -1,51 +1,56 @@
 package fadesp.paymentrestapi.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import fadesp.paymentrestapi.model.Payment;
+import fadesp.paymentrestapi.repository.PaymentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public interface PaymentService {
-    /**
-     * Metodo para criacao de pagamento no banco de dodos
-     *
-     * @param payment pagamento para ser adicionado
-     */
-    void createPayment(Payment payment);
+@Service
+public class PaymentService {
 
-    /**
-     * Metodo para editar os pagamentos no banco
-     *
-     * @param payment pagamento a ser editado
-     * @param debitCode id do pagamento a ser editado
-     */
-    void editPayment(Payment payment, int debitCode);
+    @Autowired
+    private PaymentRepository repository;
 
-    /**
-     * Metodo para retornar um pagamento pelo seu Id
-     *
-     * @param debitCode id da pagamento do pesquisado
-     * @return retorna um <code>Pagamento</code>
-     */
-    Payment fetchPaymentById(int debitCode);
+    /* Adicionar novc pagamento */
+    public List<Payment> savePayment(List<Payment> payments){
+        return repository.saveAll(payments);
+    }
 
-    /**
-     * Metodo para retornar um pagamento pelo CPF ou CNPJ
-     *
-     * @param payerType id da pagamento do pesquisado
-     * @return retorna um <code>Pagamento</code>
-     */
-    Payment fetchPaymentByPayerType(String payerType);
+    /* Buscar todos os registo */
+    public List<Payment> getPayments(){
+        return repository.findAll();
+    }
 
-    /**
-     * Metodo para retornar um pagamento de acordo com o Status
-     *
-     * @param paymentStatus id da pagamento do pesquisado
-     * @return retorna um <code>Pagamento</code>
-     */
-    Payment fetchPaymentByStatus(String paymentStatus);
+    /* Buscar pelo Id = debitCode */
+    public Optional<Payment> getPaymentById(Integer debitCode){
+        return repository.findById(debitCode);
+    }
 
-    /**
-     * Lista todas as pessoas no banco
-     *
-     * @return retorna um <code>Iterable<Pessoa></code>
-     */
-    Iterable<Payment> searchAllPayments();
+    /* Buscar pelo CPF/CNPJ = payerType */
+    public List<Payment> getPaymentByPayerType(String payerType){
+        return repository.findByName(payerType);
+    }
+
+    /* Buscar pelo  Status do pagamento = paymentStatus */
+    public List<Payment> getPaymentByPaymentStatus(String paymentStatus){
+        return repository.findByStats(paymentStatus);
+    }
+
+    public Payment updatePayment(Payment payment){
+        Payment updatedDo = new Payment();
+
+        updatedDo = repository.getReferenceById(payment.getDebitCode());
+        updatedDo.setPaymentStatus(payment.getPaymentStatus());
+
+        return repository.save(updatedDo);
+    }
+
+    public void deletePayment(Integer debitCode, String paymentStatus){
+        if (paymentStatus == "pendente_processamento"){
+            repository.deleteById(debitCode);
+        }
+    }
 }

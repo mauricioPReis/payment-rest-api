@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Table(name ="payments")
 public class Payment implements Serializable {
 
     @Id
