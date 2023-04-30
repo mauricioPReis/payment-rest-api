@@ -20,7 +20,7 @@ public class PaymentController {
         this.service = service;
     }
 
-    @PostMapping
+    @PostMapping(path = "/save")
     public ResponseEntity<List<Payment>> addPayments(@RequestBody List<Payment> payments){
         return new ResponseEntity<>(
                 service.savePayment(payments),
