@@ -23,7 +23,7 @@ public class Payment implements Serializable {
     private double valuePayment;
 
     @Column(name= "paymentStatus")
-    private String paymentStatus = "Pendente de Processamento";
+    private String paymentStatus = "pendente_processamento";
 
     public String getPaymentStatus() {
         return paymentStatus;
