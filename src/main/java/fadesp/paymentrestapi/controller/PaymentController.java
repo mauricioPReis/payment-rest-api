@@ -22,7 +22,7 @@ public class PaymentController {
     }
 
     @PostMapping
-    public ResponseEntity<List<Payment>> addPayments(@RequestBody List<Payment> payments){
+    public ResponseEntity<List<Payment>> savePayment(@RequestBody List<Payment> payments){
         return new ResponseEntity<>(
                 service.savePayment(payments),
                 HttpStatus.OK
@@ -74,8 +74,8 @@ public class PaymentController {
     }
 
     @DeleteMapping("/{debitCode}")
-    public ResponseEntity<Void> deletePayment(@PathVariable Integer debitCode, String paymentStatus){
-        service.deletePayment(debitCode, paymentStatus);
+    public ResponseEntity<Void> deletePayment(@PathVariable Integer debitCode){
+        service.deletePayment(debitCode);
         return new ResponseEntity<Void>(
                 HttpStatus.OK
         );
