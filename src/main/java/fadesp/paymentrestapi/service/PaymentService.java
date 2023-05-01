@@ -37,9 +37,9 @@ public class PaymentService {
 
     public Payment updatePayment(Payment payment){
 
-        Payment updatedDo = new Payment();
+        Payment updatedDo;
 
-        updatedDo = repository.getReferenceById(payment.getDebitCode());
+        updatedDo = repository.findByDebitCode(payment.getDebitCode());
         updatedDo.setPaymentStatus(payment.getPaymentStatus());
 
         return repository.save(updatedDo);

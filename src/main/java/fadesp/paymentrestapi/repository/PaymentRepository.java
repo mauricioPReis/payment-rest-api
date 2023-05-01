@@ -12,4 +12,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
     List<Payment> findByPayerType(String payerType);
 
     List<Payment> findByPaymentStatus(String paymentStatus);
+
+    Payment findByDebitCode(Integer debitCode);
 }
