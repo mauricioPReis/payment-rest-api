@@ -1,5 +1,6 @@
 package fadesp.paymentrestapi.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -35,14 +36,29 @@ public class PaymentService {
         return repository.findByPaymentStatus(paymentStatus);
     }
 
-    public Payment updatePayment(Payment payment){
+    public Payment updatePayment(int debitCode, String paymentStatus) {
+        Payment payment = repository.findByDebitCode(debitCode);
 
-        Payment updatedDo;
+        if (payment == null) {
+            throw new RuntimeException("Pagamento não encontrado");
+        }
 
-        updatedDo = repository.findByDebitCode(payment.getDebitCode());
-        updatedDo.setPaymentStatus(payment.getPaymentStatus());
+        if (payment.getPaymentStatus().equals("processado_sucesso")) {
+            throw new RuntimeException("Não é possível alterar o status de um pagamento processado com sucesso");
+        }
 
-        return repository.save(updatedDo);
+        if (payment.getPaymentStatus().equals("processado_falha") && !paymentStatus.equals("pendente_processamento")) {
+            throw new RuntimeException("O status de um pagamento processado com falha só pode ser alterado para pendente_processamento");
+        }
+
+        List<String> allowedStatus = Arrays.asList("pendente_processamento", "processado_falha", "processado_sucesso");
+        if (!allowedStatus.contains(paymentStatus)) {
+            throw new RuntimeException("Status de pagamento não reconhecido");
+        }
+
+        payment.setPaymentStatus(paymentStatus);
+
+        return repository.save(payment);
     }
 
     public void deletePayment(Integer debitCode, String paymentStatus){

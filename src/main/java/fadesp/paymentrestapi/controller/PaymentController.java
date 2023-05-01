@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -61,11 +62,15 @@ public class PaymentController {
     }
 
     @PutMapping(path = "/{debitCode}")
-    public ResponseEntity<Payment> updatePayment(@RequestBody Payment payment){
-        return new ResponseEntity<Payment>(
-                service.updatePayment(payment),
-                HttpStatus.OK
-        );
+    public ResponseEntity<Payment> updatePayment(@PathVariable int debitCode, @RequestBody Map<String, String> request) {
+        String paymentStatus = request.get("paymentStatus");
+
+        try {
+            Payment updatedPayment = service.updatePayment(debitCode, paymentStatus);
+            return ResponseEntity.ok(updatedPayment);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @DeleteMapping("/{debitCode}")
