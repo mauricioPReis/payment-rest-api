@@ -1,5 +1,7 @@
 package fadesp.paymentrestapi.controller;
 
+import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import fadesp.paymentrestapi.model.Payment;
 import fadesp.paymentrestapi.repository.PaymentRepository;
 import fadesp.paymentrestapi.service.PaymentService;
@@ -21,19 +23,19 @@ public class PaymentController {
         this.service = service;
     }
 
-    @PostMapping
-    public ResponseEntity<List<Payment>> savePayment(@RequestBody List<Payment> payments){
-        return new ResponseEntity<>(
-                service.savePayment(payments),
-                HttpStatus.OK
-        );
-    }
-
     @GetMapping
     public ResponseEntity<List<Payment>> getPayments(){
         return new ResponseEntity<>(
                 service.getPayments(),
                 HttpStatus.OK
+        );
+    }
+
+    @PostMapping
+    public ResponseEntity<Long> creatPayment(@RequestBody Payment payment){
+        ModelMapper modelMapper = new ModelMapper();
+        return new ResponseEntity<>(service.creatPayment(modelMapper.map(payment, Payment.class)),
+                HttpStatus.CREATED
         );
     }
 

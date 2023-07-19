@@ -2,6 +2,7 @@ package fadesp.paymentrestapi.service;
 
 import java.util.*;
 
+import fadesp.exception.GenericException;
 import fadesp.paymentrestapi.model.Payment;
 import fadesp.paymentrestapi.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,24 +14,12 @@ public class PaymentService {
     @Autowired
     private PaymentRepository repository;
 
-    public List<Payment> savePayment(List<Payment> payments) {
-        List<Payment> savedPayments = new ArrayList<>();
+    public Long creatPayment(Payment payment) {
         List<String> validPaymentMethods = Arrays.asList("boleto", "pix", "cartao_credito", "cartao_debito");
-
-        payments.forEach(payment -> {
-            if(validPaymentMethods.equals(payment.getPaymentMethod()) || payment.getPaymentMethod() == null || payment.getPaymentMethod() == "" ){
-                System.out.println("Verifique seus registro, pois um metodo de pagamento informando não existe na base dados ou esta vasil");
-                return;
-            }else if (payment.getPaymentMethod() != null && payment.getPaymentMethod().equals("cartao_credito")
-                        || payment.getPaymentMethod().equals("cartao_debito")) {
-                    if (payment.getCardNumber() == null || payment.getCardNumber().isEmpty()){
-                        System.out.println("Verifique seus registro, pois ou o metodo de pagamento ou numero de cartão estão preenchido incorretamente");
-                        return;
-                    }
-                }
-            savedPayments.add(repository.save(payment));
-        });
-        return savedPayments;
+        if(validPaymentMethods.equals(payment.getPaymentMethod()) || payment.getPaymentMethod() == null || payment.getPaymentMethod() == ""){
+            throw new GenericException("medodo te pagamento invalido");
+        }
+        return repository.save(payment).getDebitCode();
     }
 
     public List<Payment> getPayments(){

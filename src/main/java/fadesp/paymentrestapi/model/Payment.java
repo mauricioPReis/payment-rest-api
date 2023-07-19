@@ -1,6 +1,9 @@
 package fadesp.paymentrestapi.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+
 import java.io.Serializable;
 
 @Entity
@@ -10,7 +13,7 @@ public class Payment implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "debitCode")
-    private int debitCode;
+    private long debitCode;
 
     @Column(name = "payerType")
     private String payerType;
@@ -35,7 +38,7 @@ public class Payment implements Serializable {
         this.paymentStatus = paymentStatus;
     }
 
-    public int getDebitCode() {
+    public long getDebitCode() {
         return debitCode;
     }
 
