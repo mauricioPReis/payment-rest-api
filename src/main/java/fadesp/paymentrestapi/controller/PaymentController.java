@@ -1,10 +1,9 @@
 package fadesp.paymentrestapi.controller;
 
+import fadesp.paymentrestapi.model.Payment;
+import fadesp.paymentrestapi.service.PaymentService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
-import fadesp.paymentrestapi.model.Payment;
-import fadesp.paymentrestapi.repository.PaymentRepository;
-import fadesp.paymentrestapi.service.PaymentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +23,7 @@ public class PaymentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Payment>> getPayments(){
+    public ResponseEntity<List<Payment>> getPayments() {
         return new ResponseEntity<>(
                 service.getPayments(),
                 HttpStatus.OK
@@ -32,7 +31,7 @@ public class PaymentController {
     }
 
     @PostMapping
-    public ResponseEntity<Long> creatPayment(@RequestBody Payment payment){
+    public ResponseEntity<Long> creatPayment(@RequestBody @Valid Payment payment) {
         ModelMapper modelMapper = new ModelMapper();
         return new ResponseEntity<>(service.creatPayment(modelMapper.map(payment, Payment.class)),
                 HttpStatus.CREATED
@@ -40,7 +39,7 @@ public class PaymentController {
     }
 
     @GetMapping("/{debitCode}")
-    public ResponseEntity<Optional<Payment>> getSpecificPayment(@PathVariable Integer debitCode){
+    public ResponseEntity<Optional<Payment>> getSpecificPayment(@PathVariable Integer debitCode) {
         return new ResponseEntity<Optional<Payment>>(
                 service.getPaymentById(debitCode),
                 HttpStatus.OK
@@ -48,7 +47,7 @@ public class PaymentController {
     }
 
     @GetMapping("search/type/{payerType}")
-    public ResponseEntity<List<Payment>> getSpecificPaymentType(@PathVariable String payerType){
+    public ResponseEntity<List<Payment>> getSpecificPaymentType(@PathVariable String payerType) {
         return new ResponseEntity<List<Payment>>(
                 service.getPaymentByPayerType(payerType),
                 HttpStatus.OK
@@ -56,7 +55,7 @@ public class PaymentController {
     }
 
     @GetMapping("search/status/{paymentStatus}")
-    public ResponseEntity<List<Payment>> getSpecificPaymentStatus(@PathVariable String paymentStatus){
+    public ResponseEntity<List<Payment>> getSpecificPaymentStatus(@PathVariable String paymentStatus) {
         return new ResponseEntity<List<Payment>>(
                 service.getPaymentByPaymentStatus(paymentStatus),
                 HttpStatus.OK
@@ -76,7 +75,7 @@ public class PaymentController {
     }
 
     @DeleteMapping("/{debitCode}")
-    public ResponseEntity<Void> deletePayment(@PathVariable Integer debitCode){
+    public ResponseEntity<Void> deletePayment(@PathVariable Integer debitCode) {
         service.deletePayment(debitCode);
         return new ResponseEntity<Void>(
                 HttpStatus.OK

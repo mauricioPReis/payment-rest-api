@@ -1,21 +1,21 @@
 package fadesp.paymentrestapi.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.br.CPF;
 
 import java.io.Serializable;
 
 @Entity
-@Table(name ="payments")
+@Table(name = "payments")
 public class Payment implements Serializable {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "debitCode")
     private long debitCode;
 
     @Column(name = "payerType")
+    @CPF(message = "Campo invalido")
     private String payerType;
 
     @Column(name = "paymentMethod")
@@ -27,7 +27,7 @@ public class Payment implements Serializable {
     @Column(name = "valuePayment")
     private double valuePayment;
 
-    @Column(name= "paymentStatus")
+    @Column(name = "paymentStatus")
     private String paymentStatus = "pendente_processamento";
 
     public String getPaymentStatus() {
